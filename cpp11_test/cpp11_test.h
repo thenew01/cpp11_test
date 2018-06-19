@@ -245,6 +245,7 @@ std::string utf8_to_gb2312(std::string const &strUtf8)
 
 
 
+//------------------------------可变模板参数
 //递归终止函数
 template<typename T>
 void myprint(T end)//递归到最后一次，调用单参数函数
@@ -281,14 +282,14 @@ void printarg(T t)
 template<typename ...Args>
 void myexpand(Args... args)
 {
-	int arr[] = { (printarg(args), 0)... };
+	int arr[] = { (printarg(args), 0)... };		//逗号表达式
 }
 
 template<typename F, typename ...Args>
 void myexpand2(const F &f, Args &&...args)
 {
 	//使用了完美转发
-	initializer_list<int>{(f(std::forward< Args>(args)), 0)...};
+	initializer_list<int>{ ( f( std::forward<Args>(args) ), 0 ) ...};	 //逗号表达式
 }
 
 template <typename... TS>   // typename... TS为模板形参包，TS为模式
@@ -314,7 +315,6 @@ struct Sum<Last>
 {
 	enum { value = sizeof(Last) };
 };
-
 
 //-----------------------------
 //前向声明
@@ -359,24 +359,25 @@ struct MakeIndexes3<0, Indexes...>
 {
 	typedef IndexSeq<Indexes...> type;
 };
-//
-//struct A
-//{
-//	A(int) {}
-//};
-//
-//struct B
-//{
-//	B(int, double) {}
-//};
-//template<typename T, typename... Args>
-//T* Instance(Args&&... args)
-//{
-//	return new T(std::forward<Args>(args)...);
-//}
-//A* pa = Instance<A>(1);
-//B* pb = Instance<B>(1, 2);
 
+//==============================
+struct AAA
+{
+	AAA(int) {}
+};
+
+struct BBB
+{
+	BBB(int, double) {}
+};
+template<typename T, typename... Args>
+T* Instance(Args&&... args)
+{
+	return new T(std::forward<Args>(args)...);
+}
+AAA* pa = Instance<AAA>(1);
+BBB* pb = Instance<BBB>(1, 2);
+//===================================
 
 template <class T, class R, typename... Args>
 class  MyDelegate
