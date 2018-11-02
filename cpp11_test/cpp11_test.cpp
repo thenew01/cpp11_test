@@ -56,8 +56,6 @@ void rvalue() {
 
 	func(1);  // error : error C2665: “func”: 2 个重载中没有一个可以转换所有参数类型
 
-
-	
 	++i = 3;  // ok
 	//i++ = 3;  // error C2106: “=”: 左操作数必须为左值
 }
@@ -145,69 +143,70 @@ MemoryBlock f() { return MemoryBlock(50); }
 
 int main()
 {
-	MemoryBlock a = f();            // 调用移动构造器，移动语义
-	MemoryBlock b = a;              // 调用拷贝构造器，拷贝语义
-	MemoryBlock c = std::move(a);   // 调用移动构造器，移动语义
-	a = f();                        // 调用移动赋值运算符，移动语义
-	b = a;                          // 调用拷贝赋值运算符，拷贝语义
-	c = std::move(a);               // 调用移动赋值运算符，移动语义
+	MemoryBlock a0 = f();            // 调用移动构造器，移动语义
+	MemoryBlock b0 = a0;              // 调用拷贝构造器，拷贝语义
+	MemoryBlock c0 = std::move(a0);   // 调用移动构造器，移动语义
+	a0 = f();                        // 调用移动赋值运算符，移动语义
+	b0 = a0;                          // 调用拷贝赋值运算符，拷贝语义
+	c0 = std::move(a0);               // 调用移动赋值运算符，移动语义
 
-	/*int numbers[] = { 1,2,3,4,5 };
+	int numbers0[] = { 1,2,3,4,5 };
+	std::cout << "numbers:" << std::endl;
+	for (auto number : numbers0)
+	{
+		std::cout << number << std::endl;
+	}
+
+	std::array<double, 4> arrayDemo = { 1,2,3,4 };
+	std::cout << "arrayDemo:" << std::endl;
+	for (auto itor : arrayDemo)
+	{
+		std::cout << itor << std::endl;
+	}
+	int arrayDemoSize = sizeof(arrayDemo);
+	std::cout << "arrayDemo size:" << arrayDemoSize << std::endl;
+
+
+	std::forward_list<int> numbers = { 1,2,3,4,5,4,4 };
 	std::cout << "numbers:" << std::endl;
 	for (auto number : numbers)
 	{
-	std::cout << number << std::endl;
-	}*/
+		std::cout << number << std::endl;
+	}
+	numbers.remove(4);
 
-	//std::array<double, 4> arrayDemo = { 1,2,3,4 };
-	//std::cout << "arrayDemo:" << std::endl;
-	//for (auto itor : arrayDemo)
-	//{
-	//	std::cout << itor << std::endl;
-	//}
-	//int arrayDemoSize = sizeof(arrayDemo);
-	//std::cout << "arrayDemo size:" << arrayDemoSize << std::endl;
+	std::cout << "numbers after remove:" << std::endl;
+	for (auto number : numbers)
+	{
+		std::cout << number << std::endl;
+	}
 
+	std::unordered_map<std::string, std::string> mymap =
+	{
+		{ "house","maison" },
+		{ "apple","pomme" },
+		{ "tree","arbre" },
+		{ "book","livre" },
+		{ "door","porte" },
+		{ "grapefruit","pamplemousse" }
+	};
+	unsigned n = mymap.bucket_count();
+	std::cout << "mymap has " << n << " buckets.\n";
+	for (unsigned i = 0; i<n; ++i)
+	{
+		std::cout << "bucket #" << i << " contains: ";
+		for (auto it = mymap.begin(i); it != mymap.end(i); ++it)
+			std::cout << "[" << it->first.data() << ":" << it->second.data() << "] ";
+		std::cout << "\n";
+	}
 
-	//std::forward_list<int> numbers = { 1,2,3,4,5,4,4 };
-	//std::cout << "numbers:" << std::endl;
-	//for (auto number : numbers)
-	//{
-	//	std::cout << number << std::endl;
-	//}
-	//numbers.remove(4);
-	//std::cout << "numbers after remove:" << std::endl;
-	//for (auto number : numbers)
-	//{
-	//	std::cout << number << std::endl;
-	//}
+	for (auto it = mymap.begin(); it != mymap.end(); ++it)
+	{
+		std::cout << "[" << it->first.data() << ":" << it->second.data() << "] ";
+		std::cout << endl;
+	}
 
-	//std::unordered_map<std::string, std::string> mymap =
-	//{
-	//	{ "house","maison" },
-	//	{ "apple","pomme" },
-	//	{ "tree","arbre" },
-	//	{ "book","livre" },
-	//	{ "door","porte" },
-	//	{ "grapefruit","pamplemousse" }
-	//};
-	//unsigned n = mymap.bucket_count();
-	//std::cout << "mymap has " << n << " buckets.\n";
-	//for (unsigned i = 0; i<n; ++i)
-	//{
-	//	std::cout << "bucket #" << i << " contains: ";
-	//	for (auto it = mymap.begin(i); it != mymap.end(i); ++it)
-	//		std::cout << "[" << it->first.data() << ":" << it->second.data() << "] ";
-	//	std::cout << "\n";
-	//}
-
-	//for (auto it = mymap.begin(); it != mymap.end(); ++it)
-	//{
-	//	std::cout << "[" << it->first.data() << ":" << it->second.data() << "] ";
-	//	std::cout << endl;
-	//}
-
-	/*std::unordered_set<int> unorder_set;
+	std::unordered_set<int> unorder_set;
 	unorder_set.insert(7);
 	unorder_set.insert(5);
 	unorder_set.insert(3);
@@ -216,7 +215,7 @@ int main()
 	std::cout << "unorder_set:" << std::endl;
 	for (auto itor : unorder_set)
 	{
-	std::cout << itor << std::endl;
+		std::cout << itor << std::endl;
 	}
 
 	std::set<int> set;
@@ -228,16 +227,16 @@ int main()
 	std::cout << "set:" << std::endl;
 	for (auto itor : set)
 	{
-	std::cout << itor << std::endl;
-	}*/
+		std::cout << itor << std::endl;
+	}
 
-	//std::thread t1(threadfun1);
-	//std::thread t2(threadfun2, 10, "abc");
-	//t1.join();
-	////t2.join();
-	//std::cout << "join" << std::endl;
-	//t2.detach();
-	//std::cout << "detach" << std::endl;
+	std::thread t1(threadfun1);
+	std::thread t2(threadfun2, 10, "abc");
+	t1.join();
+	//t2.join();
+	std::cout << "join" << std::endl;
+	t2.detach();
+	std::cout << "detach" << std::endl;
 
 	/*std::atomic_bool b;
 	std::list<std::thread> lstThread;
@@ -278,36 +277,38 @@ int main()
 	//std::cout << "1 ref a:" << ptr_a.use_count() << std::endl;
 	//std::cout << "1 ref b:" << ptr_b.use_count() << std::endl;
 
-	/*auto add = [](int a, int b)->int {
-	return a + b;
-	}(1, 2 );
-	int ret = add;
-	std::cout << "ret:" << ret << std::endl;*/
+	auto add = [](int a, int b)->int {
+		return a + b;
+	}/*(1, 2 )*/;
+	int ret = add(1,2);
+	std::cout << "ret:" << ret << std::endl;
 
 
-	//db db1 = 1.0f;
-	//std::cout << db1 << endl;
+	db db1 = 1.0f;
+	std::cout << db1 << endl;
 
 
-	//auto a = 1;
-	//decltype(a) b = 2;
-	//decltype(b) c = add(a, b);
-	//std::cout << c << endl;
+	auto a = 1;
+	decltype(a) b = 2;
+	decltype(b) c = add(a, b);
+	std::cout << c << endl;
 
 
-	//std::cout << to_string(1).data() << " " << std::stoi(string("123")) << endl;
+	std::cout << to_string(1).data() << " " << std::stoi(string("123")) << endl;
 
-	//std::random_device rd;
-	//int randint = rd();
+	std::random_device rd;
+	int randint = rd();
+	std::cout << randint << endl;
 
-	//std::chrono::duration<double> duration(1.0);
-	////时间间隔
-	//std::this_thread::sleep_for(duration);
-	////sleep
+	std::chrono::duration<double> duration(1.0);
+	//时间间隔
+	std::this_thread::sleep_for(duration);
+	//sleep
 
-	//std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
+	std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
+	std::chrono::system_clock sclock;
+	sclock.to_time_t(tp);
 
-	//std::cout <<  << endl;
 	//获取当前时间
 
 	/*std::vector<int> v{ 1, 2, 3, 4, 5 };
@@ -405,6 +406,8 @@ int main()
 	test_forward4();
 
 	rvalue();
+
+	const signed int INVALID_POINTER_VALUE = 0xFFFFFFFF;
 
 	return 0;
 }

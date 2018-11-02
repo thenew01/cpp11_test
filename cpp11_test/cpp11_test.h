@@ -231,8 +231,7 @@ std::string utf8_to_gb2312(std::string const &strUtf8)
 	mbstate_t state = {};
 
 	std::vector<char> buff(wTemp.size() * 2);
-	int res = std::use_facet<std::codecvt<wchar_t, char, mbstate_t> >
-		(loc).out(state,
+	int res = std::use_facet<std::codecvt<wchar_t, char, mbstate_t> > (loc).out(state,
 			wTemp.data(), wTemp.data() + wTemp.size(), pwszNext,
 			buff.data(), buff.data() + buff.size(), pszNext);
 
