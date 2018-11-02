@@ -242,13 +242,13 @@ int main()
 	std::list<std::thread> lstThread;
 	for (int i = 0; i < 10; ++i)
 	{
-	lstThread.push_back(std::thread(threadfun1));
+		lstThread.push_back(std::thread(threadfun1));
 	}
 	for (auto& th : lstThread)
 	{
-	th.join();
-	}
-	*/
+		th.join();
+	}*/
+
 
 
 	//   std::thread threads[10];
@@ -262,27 +262,26 @@ int main()
 
 	//   for (auto& th : threads) th.join();
 
-	/*std::shared_ptr<Test> p1 = std::make_shared<Test>();
+	std::shared_ptr<Test> p1 = std::make_shared<Test>();
 	std::cout << "1 ref:" << p1.use_count() << std::endl;
 	{
-	std::shared_ptr<Test> p2 = p1;
-	std::cout << "2 ref:" << p1.use_count() << std::endl;
+		std::shared_ptr<Test> p2 = p1;
+		std::cout << "2 ref:" << p1.use_count() << std::endl;
 	}
-	std::cout << "3 ref:" << p1.use_count() << std::endl;*/
+	std::cout << "3 ref:" << p1.use_count() << std::endl;
 
-	//std::shared_ptr<TestA> ptr_a = std::make_shared<TestA>();
-	//std::shared_ptr<TestB> ptr_b = std::make_shared<TestB>();
-	//ptr_a->ReferTestB(ptr_b);
-	//ptr_b->ReferTestB(ptr_a);
-	//std::cout << "1 ref a:" << ptr_a.use_count() << std::endl;
-	//std::cout << "1 ref b:" << ptr_b.use_count() << std::endl;
+	std::shared_ptr<TestA> ptr_a = std::make_shared<TestA>();
+	std::shared_ptr<TestB> ptr_b = std::make_shared<TestB>();
+	ptr_a->ReferTestB(ptr_b);
+	ptr_b->ReferTestB(ptr_a);
+	std::cout << "1 ref a:" << ptr_a.use_count() << std::endl;
+	std::cout << "1 ref b:" << ptr_b.use_count() << std::endl;
 
 	auto add = [](int a, int b)->int {
 		return a + b;
-	}/*(1, 2 )*/;
+	};// (1, 2);
 	int ret = add(1,2);
 	std::cout << "ret:" << ret << std::endl;
-
 
 	db db1 = 1.0f;
 	std::cout << db1 << endl;
@@ -305,30 +304,31 @@ int main()
 	std::this_thread::sleep_for(duration);
 	//sleep
 
-	std::chrono::system_clock::time_point tp = std::chrono::system_clock::now();
-	std::chrono::system_clock sclock;
-	sclock.to_time_t(tp);
+	std::chrono::steady_clock::time_point tp = std::chrono::steady_clock::now();
+	std::chrono::steady_clock::time_point tp2 = std::chrono::steady_clock::now();
+	std::chrono::duration<chrono::steady_clock> dr;
 
 	//获取当前时间
+	
 
-	/*std::vector<int> v{ 1, 2, 3, 4, 5 };
+	std::vector<int> v{ 1, 2, 3, 4, 5 };
 	v.push_back(1);
 	std::cout << "before shrink_to_fit: " << v.capacity() << std::endl;
 	v.shrink_to_fit();
 	std::cout << "after shrink_to_fit: " << v.capacity() << std::endl;
-	*/
+	
 	//LOG(INFO) << "before move to object ot, t's size is: ";
 
-	//struct A {
-	//	int a;
-	//	A(int _a) :a(_a + 100) {}
-	//};
-	//struct B : public A {
-	//	int b;
-	//	B(int _b) :A(_b), b(_b + 10000) {}
-	//};
-	//B obj(1);
-	//std::cout << obj.a << ", " << obj.b << std::endl;
+	struct A {
+		int a;
+		A(int _a) :a(_a + 100) {}
+	};
+	struct B : public A {
+		int b;
+		B(int _b) :A(_b), b(_b + 10000) {}
+	};
+	B obj(1);
+	std::cout << obj.a << ", " << obj.b << std::endl;
 
 
 
@@ -357,22 +357,6 @@ int main()
 		}
 		//virtual void SetA(double a) override {a_ = a;}  
 	};
-
-	std::wstring wide_str = L"中国人";
-	std::wstring_convert<std::codecvt<wchar_t, char, std::mbstate_t>>
-		converter(new std::codecvt<wchar_t, char, std::mbstate_t>("CHS"));
-	std::string narrow_str = converter.to_bytes(wide_str);
-	std::wstring wstr = converter.from_bytes(narrow_str);
-	std::cout << narrow_str << std::endl;
-	wcout.imbue(std::locale("chs"));
-	std::wcout << wstr << std::endl;
-	std::cout << wstr.size() << " " << wstr.length() << endl;
-	std::cout << narrow_str.size() << " " << narrow_str.length() << endl;
-
-
-	string s = gb2312_to_utf8("哈哈哈");
-	string s2 = utf8_to_gb2312(s);
-	std::cout << s.c_str() << " " << s2.data() << endl;
 
 	myprint(1.0, 10.1, "cc");
 	cout << sum(1, 2, 3, 4) << endl; //10
