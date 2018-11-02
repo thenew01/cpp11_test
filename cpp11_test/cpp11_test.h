@@ -27,6 +27,9 @@
 
 using namespace std;
 
+
+//push的时候是不包含tag的,如果想包含,可以在push时加上--tags参数.
+
 void threadfun1()
 {
 	std::cout << "threadfun1 - 1\r\n" << std::endl;

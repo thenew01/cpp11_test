@@ -21,15 +21,12 @@
     <ClInclude Include="targetver.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="cpp11_test.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="cpp11_test.cpp">
+    <ClCompile Include="lambda.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
